@@ -1,12 +1,12 @@
-// Import necessary components and hooks from React and other libraries
 import React, { useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Button, Space, Popover, Modal, Form, Input } from 'antd';
-import { EditOutlined, DeleteOutlined, EllipsisOutlined } from '@ant-design/icons';
-import './TaskList.css';
+import { EditOutlined, DeleteOutlined, EllipsisOutlined, FileExcelOutlined } from '@ant-design/icons';
+import './Kanban.css';
 import TaskListForm from './TaskListForm';
 import TaskDetail from './TaskDetail';
+import * as XLSX from 'xlsx';
 
 // Define a constant object that holds the type for the draggable items
 const ItemTypes = {
@@ -207,8 +207,8 @@ const DeleteTaskModal = ({ visible, task, onOk, onCancel }) => {
     );
 };
 
-// App component - the main component for the Kanban Board application
-function App() {
+// Kanban component - the main component for the Kanban Board application
+function Kanban() {
     // useState hook to manage the state of the task lists
     const [taskLists, setTaskLists] = useState({
         todo: [],
@@ -307,6 +307,15 @@ function App() {
         setTaskDetailVisible(true);
     };
 
+    // Handler to export the entire task list to an Excel file
+    const handleExportToExcel = () => {
+        const dataToExport = taskLists.todo.concat(taskLists.inProgress, taskLists.done);
+        const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Kanban Board Tasks");
+        XLSX.writeFile(workbook, "kanban_board_tasks.xlsx"); // Use writeFile from 'xlsx' to export the workbook
+    };
+
     // Render the main App component
     return (
         <div className="App">
@@ -354,9 +363,17 @@ function App() {
                     onCancel={() => setTaskDetailVisible(false)}
                 />
             )}
+            {/* <Button
+                type="primary"
+                icon={<FileExcelOutlined />}
+                onClick={handleExportToExcel}
+                style={{ marginTop: '16px' }}
+            >
+                Export to Excel
+            </Button> */}
         </div>
     );
 }
 
 // Export the App component as the default export
-export default App;
+export default Kanban;

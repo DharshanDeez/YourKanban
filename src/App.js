@@ -1,11 +1,11 @@
 import React from 'react';
-import TaskList from './components/TaskList';
+import Kanban from './components/Kanban';
 
 const App = () => {
   return (
     <div className="container">
-      {/* Rendering the TaskList component */}
-      <TaskList />
+      {/* Rendering the Kanban component */}
+      <Kanban />
     </div>
   );
 };
