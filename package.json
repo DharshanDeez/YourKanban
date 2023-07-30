@@ -3,10 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.1.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "antd": "^5.7.3",
+    "axios": "^1.4.0",
+    "bootstrap": "^5.3.1",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-bootstrap": "^2.8.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dnd-touch-backend": "^16.0.1",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
@@ -21,7 +30,8 @@
     "workbox-range-requests": "^6.6.0",
     "workbox-routing": "^6.6.0",
     "workbox-strategies": "^6.6.0",
-    "workbox-streams": "^6.6.0"
+    "workbox-streams": "^6.6.0",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",

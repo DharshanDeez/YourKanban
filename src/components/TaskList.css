@@ -1,0 +1,81 @@
+/* TaskList.css */
+
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* App container styles */
+.App {
+    padding: 20px;
+}
+
+/* Kanban board styles */
+.kanban-board {
+    display: flex;
+    gap: 20px;
+}
+
+/* Task list styles */
+.task-list {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.task-list h2 {
+    margin: 0;
+    padding: 8px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Task styles */
+.task {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+.task:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.task .task-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.task h3 {
+    margin: 0;
+}
+
+/* Task modal styles */
+.ant-modal {
+    top: 20%;
+}
+
+/* Task detail modal styles */
+.task-detail-modal {
+    top: 10%;
+    max-width: 600px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.task-detail-modal .ant-modal-body {
+    padding: 16px;
+}
+
+.task-detail-modal .ant-modal-footer {
+    display: none;
+}
