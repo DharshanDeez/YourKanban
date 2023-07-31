@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Button, Space, Popover, Modal, Form, Input } from 'antd';
+import { Button, Space, Popover, Modal, Form, Input, Alert } from 'antd';
 import { EditOutlined, DeleteOutlined, EllipsisOutlined, FileExcelOutlined } from '@ant-design/icons';
 import './Kanban.css';
 import TaskListForm from './TaskListForm';
@@ -309,19 +309,56 @@ function Kanban() {
 
     // Handler to export the entire task list to an Excel file
     const handleExportToExcel = () => {
-        const dataToExport = taskLists.todo.concat(taskLists.inProgress, taskLists.done);
-        const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+        const dataToExport = {
+            todo: taskLists.todo.map((task, index) => ({ ...task, id: index + 1 })),
+            inProgress: taskLists.inProgress.map((task, index) => ({ ...task, id: index + 1 })),
+            done: taskLists.done.map((task, index) => ({ ...task, id: index + 1 })),
+        };
+
+        // Check if there are no tasks to export
+        const totalTasks = Object.values(dataToExport).reduce((total, tasks) => total + tasks.length, 0);
+        if (totalTasks === 0) {
+            // Show an Ant Design Alert component to the user that there are no tasks to export
+            return (
+                <Alert
+                    message="No Tasks to Export"
+                    description="There are no tasks to export."
+                    type="info"
+                    showIcon
+                />
+            );
+        }
+
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Kanban Board Tasks");
+
+        for (const [status, tasks] of Object.entries(dataToExport)) {
+            if (tasks.length > 0) {
+                const worksheet = XLSX.utils.json_to_sheet(tasks);
+                XLSX.utils.book_append_sheet(workbook, worksheet, `${status} Tasks`);
+            }
+        }
+
         XLSX.writeFile(workbook, "kanban_board_tasks.xlsx"); // Use writeFile from 'xlsx' to export the workbook
     };
 
-    // Render the main App component
+    // Render the main Kanaban component
     return (
+
         <div className="App">
             <h1>Kanban Board</h1>
             {/* Form component for adding a new task */}
-            <TaskListForm addTask={handleAddTask} />
+            <div className="task-list-form">
+                <TaskListForm addTask={handleAddTask} />
+                {/* Add the Export to Excel button here */}
+                <Button
+                    type="primary"
+                    icon={<FileExcelOutlined />}
+                    onClick={handleExportToExcel}
+                    style={{ position: 'absolute', right: "10em", top: "5em" }}
+                >
+                    Export to Excel
+                </Button>
+            </div>
             {/* DndProvider wraps the task lists to enable drag and drop */}
             <DndProvider backend={HTML5Backend}>
                 <div className="kanban-board">
@@ -363,17 +400,9 @@ function Kanban() {
                     onCancel={() => setTaskDetailVisible(false)}
                 />
             )}
-            {/* <Button
-                type="primary"
-                icon={<FileExcelOutlined />}
-                onClick={handleExportToExcel}
-                style={{ marginTop: '16px' }}
-            >
-                Export to Excel
-            </Button> */}
         </div>
-    );
+    )
 }
 
-// Export the App component as the default export
+// Export the Kanban component as the default export
 export default Kanban;
